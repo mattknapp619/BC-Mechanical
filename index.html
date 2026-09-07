@@ -724,6 +724,38 @@
     font-size:13px;
   }
 
+  /* ---------- BACK TO TOP ---------- */
+  .to-top-btn{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    background:var(--rust);
+    color:#fff;
+    border:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 6px 18px rgba(0,0,0,0.28);
+    opacity:0;
+    transform:translateY(12px);
+    pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease, background-color .15s ease;
+    z-index:60;
+  }
+  .to-top-btn.visible{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+  }
+  .to-top-btn:hover{background:var(--rust-dark);}
+  @media (max-width:600px){
+    .to-top-btn{right:14px;bottom:14px;width:42px;height:42px;}
+  }
+
   /* skip link / focus visibility */
   a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{
     outline:2px solid var(--rust);
@@ -1097,6 +1129,10 @@
   </div>
 </footer>
 
+<button id="toTopBtn" class="to-top-btn" aria-label="Back to top">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -1143,6 +1179,22 @@
         submitBtn.disabled = false;
         submitBtn.textContent = submitBtnDefaultText;
       });
+  });
+
+  const toTopBtn = document.getElementById('toTopBtn');
+  let toTopTicking = false;
+  window.addEventListener('scroll', () => {
+    if (!toTopTicking) {
+      window.requestAnimationFrame(() => {
+        toTopBtn.classList.toggle('visible', window.scrollY > 500);
+        toTopTicking = false;
+      });
+      toTopTicking = true;
+    }
+  });
+  toTopBtn.addEventListener('click', () => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
   });
 </script>
 
