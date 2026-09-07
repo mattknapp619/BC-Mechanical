@@ -601,6 +601,14 @@
     font-family:'Work Sans',sans-serif;
     font-size:15px;
   }
+  /* the select's own closed-state text stays white to match the dark form,
+     but most browsers render the OPEN dropdown popup with a light system
+     background regardless of the select's styling — so option text needs
+     its own dark color or it becomes invisible (white-on-white) */
+  .field select option{
+    color:#191a1b;
+    background:#fff;
+  }
   .field textarea{resize:vertical;min-height:90px;}
   .field input::placeholder, .field textarea::placeholder{color:#8b8b86;}
   .form-note{
@@ -964,10 +972,10 @@
         <div class="field">
           <label for="service">What do you need?</label>
           <select id="service" name="service">
-            <option>Repair</option>
             <option>Installation / Replacement</option>
-            <option>Mini-Split / Ductless</option>
             <option>Maintenance</option>
+            <option>Repair</option>
+            <option>Mini-Split / Ductless</option>
             <option>Not sure yet</option>
           </select>
         </div>
